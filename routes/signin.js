@@ -1,3 +1,4 @@
+
 const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser');
@@ -26,18 +27,28 @@ router.post('/', (req, res) => {
     console.log(d_password);
     console.log(d_confirm_password);
 
-  // Handle form submission for signing in - to do ->separate this
-const PocketBase = require('pocketbase/cjs')
-const pb = new PocketBase('http://127.0.0.1:8090');
-pb.collection('users').create({
-  email:           d_email,
-  password:        d_password,
-  passwordConfirm: d_confirm_password,
-  name:            d_username,
-});
+    // Handle form submission for signing in - to do 
+    const PocketBase = require('pocketbase/cjs')
+    const pb = new PocketBase('http://127.0.0.1:8090');
+ 
+    async function createUser() {
+      try {
+      const newRecord = await pb.collection('users').create({
+        email: d_email,
+        password: d_password,
+        passwordConfirm: d_confirm_password,
+        name: d_username,
+      });
+  
+      res.send('Signed in successfully!');
+      console.log('User created successfully:', newRecord);
 
-  res.send('Signed in successfully!');
+      } catch (error) {
+        console.error('Error creating user:', error);
+        }
+    }
+
+  createUser(); 
 });
 
 module.exports = router;
-

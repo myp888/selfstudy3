@@ -1,4 +1,5 @@
 
+
 const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser');
@@ -35,9 +36,12 @@ router.post('/', (req, res) => {
       try {
 
         //Login handle
+        require('dotenv').config();
         //const PocketBase = require('pocketbase/cjs')
         //const pb = new PocketBase('http://127.0.0.1:8090');
-        const authData = await pb.admins.authWithPassword('myp888@yahoo.com', '1234567890');
+        //const authData = await pb.admins.authWithPassword('myp888@yahoo.com', '1234567890');
+        const authData = await pb.admins.authWithPassword(process.env.ACCOUNT_TO_CREATE_NEW_USER,
+         process.env.ACCOUNT_TO_CREATE_NEW_USER_PASSWORD,);
         // const authUser = await pb.collection('users').authWithPassword(
         // 'gsfpc@yahoo.com',
         // '1234567890',
